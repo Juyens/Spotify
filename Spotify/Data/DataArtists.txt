@@ -1,0 +1,288 @@
+Artist: Taylor Swift
+	Album: Fearless
+		Song: Love Story
+		Genres: pop,country,romance
+		Duration: 232
+		Reproductions: 4000000000
+		Discography: fearless
+		Authors: Taylor Swift,Nathan Chapman
+		Song: You Belong with Me
+		Genres: pop,country
+		Duration: 230
+		Reproductions: 3000000000
+		Discography: fearless
+		Authors: Taylor Swift
+		Song: Fifteen
+		Genres: country,pop
+		Duration: 250
+		Reproductions: 1500000000
+		Discography: fearless
+		Authors: Taylor Swift
+		Song: Fearless
+		Genres: country,pop
+		Duration: 275
+		Reproductions: 1800000000
+		Discography: fearless
+		Authors: Taylor Swift
+		Song: Breathe
+		Genres: country,pop
+		Duration: 240
+		Reproductions: 2000000000
+		Discography: fearless
+		Authors: Taylor Swift,Colbie Caillat
+Artist: Ed Sheeran
+	Album: Divide
+		Song: Shape of You
+		Genres: pop,dancehall
+		Duration: 263
+		Reproductions: 5000000000
+		Discography: divide
+		Authors: Ed Sheeran,Steve Mac,Johnny McDaid
+		Song: Castle on the Hill
+		Genres: pop,rock
+		Duration: 261
+		Reproductions: 3000000000
+		Discography: divide
+		Authors: Ed Sheeran
+		Song: Galway Girl
+		Genres: pop,folk
+		Duration: 230
+		Reproductions: 2500000000
+		Discography: divide
+		Authors: Ed Sheeran,Steve Mac,Johnny McDaid
+		Song: Perfect
+		Genres: pop,romance
+		Duration: 263
+		Reproductions: 3500000000
+		Discography: divide
+		Authors: Ed Sheeran
+		Song: Happier
+		Genres: pop,ballad
+		Duration: 260
+		Reproductions: 2300000000
+		Discography: divide
+		Authors: Ed Sheeran
+Artist: Adele
+	Album: 21
+		Song: Rolling in the Deep
+		Genres: pop,soul
+		Duration: 228
+		Reproductions: 4000000000
+		Discography: 21
+		Authors: Adele,Paul Epworth
+		Song: Someone Like You
+		Genres: pop,ballad
+		Duration: 285
+		Reproductions: 3500000000
+		Discography: 21
+		Authors: Adele
+		Song: Set Fire to the Rain
+		Genres: pop,soul
+		Duration: 250
+		Reproductions: 3000000000
+		Discography: 21
+		Authors: Adele,Fraser T Smith
+		Song: Rumour Has It
+		Genres: pop,soul
+		Duration: 220
+		Reproductions: 2000000000
+		Discography: 21
+		Authors: Adele,Ryan Tedder
+		Song: Turning Tables
+		Genres: pop,ballad
+		Duration: 280
+		Reproductions: 1800000000
+		Discography: 21
+		Authors: Adele
+Artist: The Weeknd
+	Album: After Hours
+		Song: Blinding Lights
+		Genres: pop,synthwave
+		Duration: 200
+		Reproductions: 4500000000
+		Discography: after hours
+		Authors: The Weeknd,Max Martin,Oscar Holter
+		Song: Save Your Tears
+		Genres: pop,synthwave
+		Duration: 215
+		Reproductions: 3500000000
+		Discography: after hours
+		Authors: The Weeknd,Max Martin,Oscar Holter
+		Song: Heartless
+		Genres: pop,R&B
+		Duration: 200
+		Reproductions: 2500000000
+		Discography: after hours
+		Authors: The Weeknd,Metro Boomin
+		Song: In Your Eyes
+		Genres: pop,synthwave
+		Duration: 240
+		Reproductions: 2000000000
+		Discography: after hours
+		Authors: The Weeknd,Max Martin,Oscar Holter
+		Song: Too Late
+		Genres: R&B,pop
+		Duration: 250
+		Reproductions: 1500000000
+		Discography: after hours
+		Authors: The Weeknd,Metro Boomin
+Artist: Drake
+	Album: Scorpion
+		Song: God's Plan
+		Genres: hip-hop,rap
+		Duration: 200
+		Reproductions: 4500000000
+		Discography: scorpion
+		Authors: Drake,Noah "40" Shebib
+		Song: In My Feelings
+		Genres: hip-hop,rap
+		Duration: 235
+		Reproductions: 3500000000
+		Discography: scorpion
+		Authors: Drake,Boi-1da
+		Song: Nonstop
+		Genres: hip-hop
+		Duration: 230
+		Reproductions: 3000000000
+		Discography: scorpion
+		Authors: Drake,No I.D.
+		Song: Nice for What
+		Genres: hip-hop,rap
+		Duration: 245
+		Reproductions: 2500000000
+		Discography: scorpion
+		Authors: Drake,Murda Beatz
+		Song: I'm Upset
+		Genres: hip-hop
+		Duration: 220
+		Reproductions: 1800000000
+		Discography: scorpion
+		Authors: Drake,Noah "40" Shebib
+Artist: Ariana Grande
+	Album: Thank U, Next
+		Song: 7 Rings
+		Genres: pop,R&B
+		Duration: 220
+		Reproductions: 4500000000
+		Discography: thank u,next
+		Authors: Ariana Grande,Victoria Monét
+		Song: Thank U, Next
+		Genres: pop,R&B
+		Duration: 270
+		Reproductions: 3500000000
+		Discography: thank u,next
+		Authors: Ariana Grande,Max Martin
+		Song: Break Up with Your Girlfriend, I'm Bored
+		Genres: pop,R&B
+		Duration: 210
+		Reproductions: 3000000000
+		Discography: thank u,next
+		Authors: Ariana Grande,Savan Kotecha
+		Song: Needy
+		Genres: pop,R&B
+		Duration: 240
+		Reproductions: 2000000000
+		Discography: thank u,next
+		Authors: Ariana Grande,Savan Kotecha
+		Song: Imagine
+		Genres: pop,ballad
+		Duration: 220
+		Reproductions: 1500000000
+		Discography: thank u,next
+		Authors: Ariana Grande
+		Artist: Shawn Mendes
+Album: Illuminate
+	Song: There's Nothing Holdin' Me Back
+		Genres: pop,rock
+		Duration: 220
+		Reproductions: 4000000000
+		Discography: illuminate
+		Authors: Shawn Mendes,Teddy Geiger
+		Song: Stitches
+		Genres: pop,rock
+		Duration: 230
+		Reproductions: 3500000000
+		Discography: illuminate
+		Authors: Shawn Mendes,Daniel Kyriakides
+		Song: Treat You Better
+		Genres: pop,rock
+		Duration: 240
+		Reproductions: 3000000000
+		Discography: illuminate
+		Authors: Shawn Mendes,Teddy Geiger
+		Song: Mercy
+		Genres: pop,rock
+		Duration: 260
+		Reproductions: 2500000000
+		Discography: illuminate
+		Authors: Shawn Mendes,Scott Harris
+		Song: Ruin
+		Genres: pop,ballad
+		Duration: 250
+		Reproductions: 2000000000
+		Discography: illuminate
+		Authors: Shawn Mendes
+Artist: Justin Bieber
+	Album: Purpose
+		Song: Sorry
+		Genres: pop,dancehall
+		Duration: 200
+		Reproductions: 5000000000
+		Discography: purpose
+		Authors: Justin Bieber,Skrillex,BloodPop
+		Song: What Do You Mean?
+		Genres: pop,dancehall
+		Duration: 230
+		Reproductions: 4000000000
+		Discography: purpose
+		Authors: Justin Bieber,Skrillex,BloodPop
+		Song: Love Yourself
+		Genres: pop,ballad
+		Duration: 250
+		Reproductions: 3500000000
+		Discography: purpose
+		Authors: Justin Bieber,Ed Sheeran
+		Song: Company
+		Genres: pop,R&B
+		Duration: 230
+		Reproductions: 2500000000
+		Discography: purpose
+		Authors: Justin Bieber,BloodPop
+		Song: No Sense
+		Genres: R&B,pop
+		Duration: 250
+		Reproductions: 2000000000
+		Discography: purpose
+		Authors: Justin Bieber,Skrillex
+Artist: Billie Eilish
+	Album: When We All Fall Asleep, Where Do We Go?
+		Song: bad guy
+		Genres: pop,electropop
+		Duration: 210
+		Reproductions: 4500000000
+		Discography: when we all fall asleep
+		Authors: Billie Eilish,Finneas
+		Song: bury a friend
+		Genres: electropop,indie
+		Duration: 240
+		Reproductions: 4000000000
+		Discography: when we all fall asleep
+		Authors: Billie Eilish,Finneas
+		Song: all the good girls go to hell
+		Genres: pop,electropop
+		Duration: 230
+		Reproductions: 3500000000
+		Discography: when we all fall asleep
+		Authors: Billie Eilish,Finneas
+		Song: wish you were gay
+		Genres: pop,electropop
+		Duration: 210
+		Reproductions: 3000000000
+		Discography: when we all fall asleep
+		Authors: Billie Eilish,Finneas
+		Song: everything i wanted
+		Genres: pop,electropop
+		Duration: 260
+		Reproductions: 2800000000
+		Discography: when we all fall asleep
+		Authors: Billie Eilish,Finneas

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menu.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Option.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AuthManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\User.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spotify.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UserManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Credits.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Song.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Album.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Artist.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DataManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KeyboardInput.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Console.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Intro.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SongManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Playlist.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Input\Input.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Structures\List.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Structures\Node.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menu\Menu.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manager\MenuManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menu\Option.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Spotify\Spotify.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manager\AuthManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\User\User.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manager\UserManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manager\DataManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Credits.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Song.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Album.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Artist.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Console\Console.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Console\Color.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Console\Key.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Console\KeyboardInput.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menu\Label.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menu\SelectionTracker.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Utils.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Extra\Intro.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manager\SongManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Structures\Stack.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Structures\Queue.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Library.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Music\Playlist.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\DataUsers.txt" />
+    <Text Include="Data\DataArtists.txt" />
+  </ItemGroup>
+</Project>
