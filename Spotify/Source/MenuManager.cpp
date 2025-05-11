@@ -21,7 +21,7 @@ MenuManager::~MenuManager()
 void MenuManager::initialize()
 {
 	_profileMenu = new Menu("Spotify - Perfil");
-	_exploreMenu = new Menu("Spotify - Explorar");
+	_exploreMenu = new Menu("Generos");
 	_libraryMenu = new Menu("Spotify - Biblioteca");
 	_searchMenu = new Menu("Spotify - Buscar");
 }
@@ -43,57 +43,90 @@ void MenuManager::setupProfileMenu(UserManager* userManager)
 	_profileMenu->addOptionBack("Volver", [this] { changeMenu(_mainMenu); });
 }
 
-void MenuManager::setupExploreMenu(DataManager* dataManager, Library* library)
+void MenuManager::setupExploreMenu(DataManager* dataManager, Library* library, SongManager* songManager)
 {
+	auto map = dataManager->getSongsGroupedByGenre();
+
+	for (auto& [genre, songs] : map)
+	{
+		_exploreMenu->addOption(genre, [this, genre, songs, library, songManager] { createListSongSubMenu(genre, songs, _exploreMenu, library, songManager); });
+	}
+
 	_exploreMenu->addOptionBack("Volver", [this] { changeMenu(_mainMenu); });
 }
 
-void MenuManager::setupSearchMenu(DataManager* dataManager, Library* library)
+void MenuManager::setupSearchMenu(DataManager* dataManager, Library* library, SongManager* songManager)
 {
-	_searchMenu->addOption("Buscar Artista", [this, dataManager, library] { createSearchArtistSubMenu(dataManager, _searchMenu, library); });
-	_searchMenu->addOption("Buscar Album", [this, dataManager, library] { createSearchAlbumSubMenu(dataManager, _searchMenu, library); });
-	_searchMenu->addOption("Buscar Cancion", [this, dataManager, library] { dataManager->searchSong()->printInfo(); });
-	_searchMenu->addOption("Listar Artistas", [this, dataManager, library] { createListArtistSubMenu("Spotify -> Artistas", dataManager->getArtists(), _searchMenu, library, true); });
-	_searchMenu->addOption("Listar Albumes", [this, dataManager, library] { createListAlbumSubMenu("Spotify -> Albums", dataManager->getAllAlbums(), _searchMenu, library, true); });
-	_searchMenu->addOption("Listar Canciones", [this, dataManager, library] { createSongSubMenu(dataManager, _searchMenu, library); });
+	_searchMenu->addOption("Buscar Artista", [this, dataManager, library, songManager] { createSearchArtistSubMenu(dataManager, _searchMenu, library, songManager); });
+	_searchMenu->addOption("Buscar Album", [this, dataManager, library, songManager] { createSearchAlbumSubMenu(dataManager, _searchMenu, library, songManager); });
+	_searchMenu->addOption("Buscar Cancion", [this, dataManager, library, songManager] { createSearchSongSubMenu(dataManager, _searchMenu, library, songManager); });
+	_searchMenu->addOption("Listar Artistas", [this, dataManager, library, songManager] { createListArtistSubMenu("Spotify -> Artistas", dataManager->getArtists(), _searchMenu, library, songManager, true); });
+	_searchMenu->addOption("Listar Albumes", [this, dataManager, library, songManager] { createListAlbumSubMenu("Spotify -> Albums", dataManager->getAllAlbums(), _searchMenu, library, songManager, true); });
+	_searchMenu->addOption("Listar Canciones", [this, dataManager, library, songManager] { createSongSubMenu(dataManager, _searchMenu, library, songManager); });
 
 	_searchMenu->addOptionBack("Volver", [this] { changeMenu(_mainMenu); });
 }
 
-void MenuManager::setupLibraryMenu(Library* library)
+void MenuManager::setupLibraryMenu(Library* library, SongManager* songManager)
 {
-	_libraryMenu->addOption("Mis Artistas", [this, library] { createListArtistSubMenu("Mis Artistas", library->getArtists(), _libraryMenu, library, false); });
-	_libraryMenu->addOption("Mis Albumes", [this, library] { createListAlbumSubMenu("Mis Albums", library->getAlbums(), _libraryMenu, library, false); });
-	_libraryMenu->addOption("Mis Paylist", [this, library] { createListPlaylistSubMenu("Mis Playlist", library->getPlaylists(), _libraryMenu); });
-	_libraryMenu->addOption("Agregar Playlist", [library] { library->createPlaylist(); });
+	_libraryMenu->addOption("Mis Artistas", [this, library, songManager] { createListArtistSubMenu("Mis Artistas", library->getArtists(), _libraryMenu, library, songManager, false); });
+	_libraryMenu->addOption("Mis Albumes", [this, library, songManager] { createListAlbumSubMenu("Mis Albums", library->getAlbums(), _libraryMenu, library, songManager, false); });
+	_libraryMenu->addOption("Mis Paylist", [this, library, songManager] { createListPlaylistSubMenu("Mis Playlist", library->getPlaylists(), _libraryMenu, songManager); });
+	_libraryMenu->addOption("Agregar Playlist", [library, songManager] { library->createPlaylist(); });
 
 	_libraryMenu->addOptionBack("Volver", [this] { changeMenu(_mainMenu); });
 }
 
-void MenuManager::setupMainMenu(AuthManager* authManager)
+void MenuManager::setupMainMenu(AuthManager* authManager, SongManager* songManager, Library* library)
 {
 	_mainMenu->addOption("Perfil", [this] { changeMenu(_profileMenu); });
 	_mainMenu->addOption("Explorar", [this] { changeMenu(_exploreMenu); });
 	_mainMenu->addOption("Buscar", [this] { changeMenu(_searchMenu); });
 	_mainMenu->addOption("Biblioteca", [this] { changeMenu(_libraryMenu); });
-	_mainMenu->addOption("Historial", nullptr );
+	_mainMenu->addOption("Historial", [this, songManager, library] { createHistoryMenu(songManager, library); });
 	_mainMenu->addOptionBack("Cerrar sesion", [authManager] { authManager->logout(); });
 }
 
-void MenuManager::createArtistSubMenu(Artist* artist, Menu* previousMenu, Library* library, bool add)
+void MenuManager::createHistoryMenu(SongManager* songManager, Library* library)
+{
+	Menu* subMenu = new Menu("Historial");
+
+	auto stack = songManager->getHistory();
+
+	while (!stack->isEmpty())
+	{
+		Song* song = stack->peek();
+
+		subMenu->addOption(song->getName(), [this, song, subMenu, library, songManager]
+		{
+			createSubMenuLibrarySong(song->getName(), song, subMenu, library, songManager);
+		});
+
+		stack->pop();
+	}
+
+	subMenu->addOptionBack("Volver", [this]
+	{
+		changeMenu(_mainMenu);
+	});
+
+	changeMenu(subMenu);
+}
+
+void MenuManager::createArtistSubMenu(Artist* artist, Menu* previousMenu, Library* library, SongManager* songManager, bool add)
 {
 	Menu* subMenu = new Menu(artist->getName());
 
 	subMenu->addOption("Listar Albums",
-							 [this, artist, subMenu, library, add]
+							 [this, artist, subMenu, library, songManager, add]
 	{
-		createListAlbumSubMenu(artist->getName() + " -> Albums", artist->getAlbums(), subMenu, library, true);
+		createListAlbumSubMenu(artist->getName() + " -> Albums", artist->getAlbums(), subMenu, library, songManager, true);
 	});
 
 	subMenu->addOption("Listar Canciones",
-							 [this, artist, subMenu, library]
+							 [this, artist, subMenu, library, songManager]
 	{
-		createListSongSubMenu(artist->getName() + " -> Canciones", artist->getSongs(), subMenu, library);
+		createListSongSubMenu(artist->getName() + " -> Canciones", artist->getSongs(), subMenu, library, songManager);
 	});
 
 	if (add)
@@ -104,14 +137,16 @@ void MenuManager::createArtistSubMenu(Artist* artist, Menu* previousMenu, Librar
 	changeMenu(subMenu);
 }
 
-void MenuManager::createAlbumSubMenu(Album* album, Menu* previousMenu, Library* library, bool add)
+void MenuManager::createAlbumSubMenu(Album* album, Menu* previousMenu, Library* library, SongManager* songManager, bool add)
 {
 	Menu* subMenu = new Menu(album->getName());
 
+	subMenu->addOption("Reproducir", [songManager, album] { songManager->play(album); });
+
 	subMenu->addOption("Listar Canciones",
-							 [this, album, subMenu, library]
+							 [this, album, subMenu, library, songManager]
 	{
-		createListSongSubMenu(album->getName() + " -> Canciones", album->getSongs(), subMenu, library);
+		createListSongSubMenu(album->getName() + " -> Canciones", album->getSongs(), subMenu, library, songManager);
 	});
 
 	if (add)
@@ -122,41 +157,51 @@ void MenuManager::createAlbumSubMenu(Album* album, Menu* previousMenu, Library* 
 	changeMenu(subMenu);
 }
 
-void MenuManager::createSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library)
+void MenuManager::createSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager)
 {
 	Menu* songSubMenu = new Menu("Spotify -> Canciones");
 
-	songSubMenu->addOption("Mayor reproducciones", [this, dataManager, songSubMenu, library] { createListSongSubMenu("Mayor reproducciones", dataManager->getSongsSortedByReproductions(true), songSubMenu, library); });
-	songSubMenu->addOption("Menor reproducciones", [this, dataManager, songSubMenu, library] { createListSongSubMenu("Menor reproducciones", dataManager->getSongsSortedByReproductions(false), songSubMenu, library); });
-	songSubMenu->addOption("Mayor duracion", [this, dataManager, songSubMenu, library] { createListSongSubMenu("Mayor duracion", dataManager->getSongsSortedByDurationBubbleSort(true), songSubMenu, library); });
-	songSubMenu->addOption("Menor duracion", [this, dataManager, songSubMenu, library] { createListSongSubMenu("Menor duracion", dataManager->getSongsSortedByDurationBubbleSort(false), songSubMenu, library); });
-	songSubMenu->addOption("Mostrar todas", [this, dataManager, songSubMenu, library] { createListSongSubMenu("Spotify -> Canciones", dataManager->getAllSongs(), songSubMenu, library); });
+	songSubMenu->addOption("Mayor reproducciones", [this, dataManager, songSubMenu, library, songManager] { createListSongSubMenu("Mayor reproducciones", dataManager->getSongsSortedByReproductions(true), songSubMenu, library, songManager); });
+	songSubMenu->addOption("Menor reproducciones", [this, dataManager, songSubMenu, library, songManager] { createListSongSubMenu("Menor reproducciones", dataManager->getSongsSortedByReproductions(false), songSubMenu, library, songManager); });
+	songSubMenu->addOption("Mayor duracion", [this, dataManager, songSubMenu, library, songManager] { createListSongSubMenu("Mayor duracion", dataManager->getSongsSortedByDurationBubbleSort(true), songSubMenu, library, songManager); });
+	songSubMenu->addOption("Menor duracion", [this, dataManager, songSubMenu, library, songManager] { createListSongSubMenu("Menor duracion", dataManager->getSongsSortedByDurationBubbleSort(false), songSubMenu, library, songManager); });
+	songSubMenu->addOption("Mostrar todas", [this, dataManager, songSubMenu, library, songManager] { createListSongSubMenu("Spotify -> Canciones", dataManager->getAllSongs(), songSubMenu, library, songManager); });
 	songSubMenu->addOptionBack("Volver", [this, previousMenu] { changeMenu(previousMenu); });
 
 	changeMenu(songSubMenu);
 }
 
-void MenuManager::createSearchArtistSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library)
+void MenuManager::createSearchArtistSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager)
 {
 	auto artist = dataManager->searchArtist();
 
 	if (!artist)
 		return;
 
-	createArtistSubMenu(artist, previousMenu, library, true);
+	createArtistSubMenu(artist, previousMenu, library, songManager, true);
 }
 
-void MenuManager::createSearchAlbumSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library)
+void MenuManager::createSearchAlbumSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager)
 {
 	auto album = dataManager->searchAlbum();
 
 	if (!album)
 		return;
 
-	createAlbumSubMenu(album, previousMenu, library, true);
+	createAlbumSubMenu(album, previousMenu, library, songManager, true);
 }
 
-void MenuManager::createListArtistSubMenu(const std::string& name, List<Artist*>* artists, Menu* previousMenu, Library* library, bool add)
+void MenuManager::createSearchSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager)
+{
+	auto song = dataManager->searchSong();
+
+	if (!song)
+		return;
+
+	createSubMenuLibrarySong(song->getName(), song, previousMenu, library, songManager);
+}
+
+void MenuManager::createListArtistSubMenu(const std::string& name, List<Artist*>* artists, Menu* previousMenu, Library* library, SongManager* songManager, bool add)
 {
 	Menu* listArtistSubMenu = new Menu(name);
 
@@ -164,9 +209,9 @@ void MenuManager::createListArtistSubMenu(const std::string& name, List<Artist*>
 	{
 		auto artist = artists->getAtPosition(i);
 		listArtistSubMenu->addOption(artist->getName(),
-									[this, artist, listArtistSubMenu, library, add]
+									[this, artist, listArtistSubMenu, library, songManager, add]
 		{
-			createArtistSubMenu(artist, listArtistSubMenu, library, add);
+			createArtistSubMenu(artist, listArtistSubMenu, library, songManager, add);
 		});
 	}
 
@@ -175,7 +220,7 @@ void MenuManager::createListArtistSubMenu(const std::string& name, List<Artist*>
 	changeMenu(listArtistSubMenu);
 }
 
-void MenuManager::createListAlbumSubMenu(const std::string& name, List<Album*>* albums, Menu* previousMenu, Library* library, bool add)
+void MenuManager::createListAlbumSubMenu(const std::string& name, List<Album*>* albums, Menu* previousMenu, Library* library, SongManager* songManager, bool add)
 {
 	Menu* listAlbumSubMenu = new Menu(name);
 
@@ -183,9 +228,9 @@ void MenuManager::createListAlbumSubMenu(const std::string& name, List<Album*>* 
 	{
 		auto album = albums->getAtPosition(i);
 		listAlbumSubMenu->addOption(album->getName(), 
-									[this, albums, album, name, listAlbumSubMenu, library, add]
+									[this, albums, album, name, listAlbumSubMenu, library, add, songManager]
 		{ 
-			createAlbumSubMenu(album, listAlbumSubMenu, library, add);
+			createAlbumSubMenu(album, listAlbumSubMenu, library, songManager, add);
 		});
 	}
 
@@ -194,14 +239,14 @@ void MenuManager::createListAlbumSubMenu(const std::string& name, List<Album*>* 
 	changeMenu(listAlbumSubMenu);
 }
 
-void MenuManager::createListSongSubMenu(const std::string& name, List<Song*>* songs, Menu* previousMenu, Library* library)
+void MenuManager::createListSongSubMenu(const std::string& name, List<Song*>* songs, Menu* previousMenu, Library* library, SongManager* songManager)
 {
 	Menu* listSongsSubMenu = new Menu(name);
 
 	for (uint i = 0; i < songs->size(); i++)
 	{
 		auto song = songs->getAtPosition(i);
-		listSongsSubMenu->addOption(song->getName(), [this, song, listSongsSubMenu, library] { createSubMenuLibrarySong(song->getName(), song, listSongsSubMenu, library); });
+		listSongsSubMenu->addOption(song->getName(), [this, song, listSongsSubMenu, library, songManager] { createSubMenuLibrarySong(song->getName(), song, listSongsSubMenu, library, songManager); });
 	}
 
 	listSongsSubMenu->addOptionBack("Volver", [this, previousMenu] { changeMenu(previousMenu); });
@@ -209,14 +254,14 @@ void MenuManager::createListSongSubMenu(const std::string& name, List<Song*>* so
 	changeMenu(listSongsSubMenu);
 }
 
-void MenuManager::createListPlaylistSubMenu(const std::string& name, List<Playlist*>* playlists, Menu* previousMenu)
+void MenuManager::createListPlaylistSubMenu(const std::string& name, List<Playlist*>* playlists, Menu* previousMenu, SongManager* songManager)
 {
 	Menu* listPlaylistSubMenu = new Menu(name);
 
 	for (uint i = 0; i < playlists->size(); i++)
 	{
 		auto playlist = playlists->getAtPosition(i);
-		listPlaylistSubMenu->addOption(playlist->getName(), [this, playlist, previousMenu] { createListSongSubMenu(playlist->getName() + " -> Canciones", playlist->getSongs(), previousMenu, nullptr); });
+		listPlaylistSubMenu->addOption(playlist->getName(), [this, playlist, previousMenu, songManager] { createListSongSubMenu(playlist->getName() + " -> Canciones", playlist->getSongs(), previousMenu, nullptr, songManager); });
 	}
 
 	listPlaylistSubMenu->addOptionBack("Volver", [this, previousMenu] { changeMenu(previousMenu); });
@@ -224,11 +269,43 @@ void MenuManager::createListPlaylistSubMenu(const std::string& name, List<Playli
 	changeMenu(listPlaylistSubMenu);
 }
 
-void MenuManager::createSubMenuLibrarySong(const std::string& name, Song* song, Menu* previousMenu, Library* library)
+void MenuManager::createHistorySubMenu(Menu* previousMenu, SongManager* songManager, Library* library)
+{
+	Menu* subMenu = new Menu("Historial");
+
+	Stack<Song*> tmp;
+	Stack<Song*> originalHistory = *(songManager->getHistory());
+
+	Stack<Song*> tempHistoryCopy;
+	while (!originalHistory.isEmpty())
+	{
+		Song* song = originalHistory.peek();
+		Song* copiedSong = new Song(*song);
+		tempHistoryCopy.push(copiedSong);
+		originalHistory.pop();
+	}
+
+	while (!tempHistoryCopy.isEmpty())
+	{
+		Song* song = tempHistoryCopy.peek();
+		subMenu->addOption(song->getName(), [this, song, previousMenu, library, songManager]
+		{
+			createSubMenuLibrarySong(song->getName(), song, previousMenu, library, songManager);
+		});
+		tempHistoryCopy.pop();
+	}
+
+	subMenu->addOptionBack("Volver", [this, previousMenu]
+	{
+		changeMenu(previousMenu);
+	});
+}
+
+void MenuManager::createSubMenuLibrarySong(const std::string& name, Song* song, Menu* previousMenu, Library* library, SongManager* songManager)
 {
 	Menu* subMenu = new Menu(name);
 
-	subMenu->addOption("Reproducir", nullptr);
+	subMenu->addOption("Reproducir", [songManager, song] { songManager->play(song); });
 	
 	if (library)
 		subMenu->addOption("Agregar a la biblioteca", [this, song, library, subMenu] { createAddToPlayListSubMenu(song, library, subMenu); });

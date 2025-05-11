@@ -11,7 +11,9 @@ void Spotify::configureConsole()
 void Spotify::setupPrevLogin()
 {
 	_menuManager.setupAuthMenu(_authManager, _userManager);
-	_menuManager.setupMainMenu(_authManager);
+
+	Library* library = _userManager->getCurrentUser()->getLibrary();
+	_menuManager.setupMainMenu(_authManager, _songManager, library);
 }
 
 void Spotify::setupPosLogin()
@@ -21,16 +23,16 @@ void Spotify::setupPosLogin()
 	_menuManager.setupProfileMenu(_userManager);
 
 	Library* library = _userManager->getCurrentUser()->getLibrary();
-	_menuManager.setupExploreMenu(_dataManager, library);
-	_menuManager.setupSearchMenu(_dataManager, library);
-	_menuManager.setupLibraryMenu(library);
+	_menuManager.setupExploreMenu(_dataManager, library, _songManager);
+	_menuManager.setupSearchMenu(_dataManager, library, _songManager);
+	_menuManager.setupLibraryMenu(library, _songManager);
 }
 
 // ----------------------------------------------------- //
 
 Spotify::Spotify()
 	: _isRunning(true), _userManager(nullptr), _authManager(new AuthManager()), _dataManager(new DataManager()),
-	_songManager(new SongManager(_dataManager->getAllSongs()))
+	_songManager(new SongManager())
 {
 	_userManager = new UserManager(_dataManager);
 	// -------------------------------------------- //
@@ -66,16 +68,18 @@ void Spotify::update()
 {
 	KeyboardInput::update();
 	_menuManager.selectOption();
+	_songManager->keyboard();
 }
 
 void Spotify::render()
 {
 	_menuManager.display();
+	_songManager->show();
 }
 
 void Spotify::run()
 {
-	Intro::showIntro(SIZE);
+	//Intro::showIntro(SIZE);
 
 	while (_isRunning)
 	{

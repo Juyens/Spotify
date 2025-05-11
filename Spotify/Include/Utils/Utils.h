@@ -3,8 +3,8 @@
 #include <string>
 #include <iostream>
 
-#define MSG(msg) { std::cout << msg; std::cin.get(); }
-#define PAUSE { std::cin.get();}
+#define MSG(msg) { std::cout << msg; system("pause>0"); }
+#define PAUSE { system("pause>0"); }
 
 inline std::string addSpaces(const std::string& input)
 {

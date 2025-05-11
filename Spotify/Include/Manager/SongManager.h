@@ -15,23 +15,28 @@
 class SongManager
 {
 private:
-    List<Song*>* _allSongs;
     Queue<Song*>* _playQueue;
     Stack<Song*>* _history;
 
+    Song* _currentSong;
+
 public:
-    SongManager(List<Song*>* _allSongs);
+    SongManager();
     ~SongManager();
 
     void show();
+
+    void clearBox(int x, int y, int width, int height);
+    void drawBox(int x, int y, int width, int height);
+
     void keyboard();
 
     void play(Album* album);
-    void play(Playlist * album);
+    void play(Playlist * playlist);
     void play(Song* song);
 
     void enqueue(Song* song);
-    Song* next();
+    void next();
 
     Stack<Song*>* getHistory();
     Queue<Song*>* getPlayQueue();

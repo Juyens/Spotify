@@ -70,6 +70,7 @@ void UserManager::saveUsersToFile()
 void UserManager::addUser(User* user)
 {
 	_users->addLast(user);
+	user->saveData();
 	saveUsersToFile();
 }
 

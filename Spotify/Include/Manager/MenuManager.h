@@ -4,6 +4,7 @@
 #include "AuthManager.h"
 #include "UserManager.h"
 #include "DataManager.h"
+#include "SongManager.h"
 #include "Artist.h"
 
 class MenuManager
@@ -26,27 +27,31 @@ public:
 
 	void setupAuthMenu(AuthManager* authManager, UserManager* userManager);
 	void setupProfileMenu(UserManager* userManager);
-	void setupExploreMenu(DataManager* dataManager, Library* library);
-	void setupSearchMenu(DataManager* dataManager, Library* library);
-	void setupLibraryMenu(Library* library);
-	void setupMainMenu(AuthManager* authManager);
-	
-	void createArtistSubMenu(Artist* artist, Menu* previousMenu, Library* library, bool add);
-	void createAlbumSubMenu(Album* album, Menu* previousMenu, Library* library, bool add);
-	void createSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library);
+	void setupExploreMenu(DataManager* dataManager, Library* library, SongManager* songManager);
+	void setupSearchMenu(DataManager* dataManager, Library* library, SongManager* songManager);
+	void setupLibraryMenu(Library* library, SongManager* songManager);
+	void setupMainMenu(AuthManager* authManager, SongManager* songManager, Library* library);
+	void createHistoryMenu(SongManager* songManager, Library* library);
 
-	void createSearchArtistSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library);
-	void createSearchAlbumSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library);
+	void createArtistSubMenu(Artist* artist, Menu* previousMenu, Library* library, SongManager* songManager, bool add);
+	void createAlbumSubMenu(Album* album, Menu* previousMenu, Library* library, SongManager* songManager, bool add);
+	void createSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager);
 
-	void createListArtistSubMenu(const std::string& name, List<Artist*>* artists, Menu* previousMenu, Library* library, bool add);
-	void createListAlbumSubMenu(const std::string& name, List<Album*>* albums, Menu* previousMenu, Library* library, bool add);
-	void createListSongSubMenu(const std::string& name, List<Song*>* songs, Menu* previousMenu, Library* library);
-	void createListPlaylistSubMenu(const std::string& name, List<Playlist*>* playlists, Menu* previousMenu);
+	void createSearchArtistSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager);
+	void createSearchAlbumSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager);
+	void createSearchSongSubMenu(DataManager* dataManager, Menu* previousMenu, Library* library, SongManager* songManager);
+
+	void createListArtistSubMenu(const std::string& name, List<Artist*>* artists, Menu* previousMenu, Library* library, SongManager* songManager, bool add);
+	void createListAlbumSubMenu(const std::string& name, List<Album*>* albums, Menu* previousMenu, Library* library, SongManager* songManager, bool add);
+	void createListSongSubMenu(const std::string& name, List<Song*>* songs, Menu* previousMenu, Library* library, SongManager* songManager);
+	void createListPlaylistSubMenu(const std::string& name, List<Playlist*>* playlists, Menu* previousMenu, SongManager* songManager);
+
+	void createHistorySubMenu(Menu* previousMenu, SongManager* songManager, Library* library);
 
 	template<class T>
 	void createAddToPlayListSubMenu(T object, Library* library, Menu* previousMenu);
 
-	void createSubMenuLibrarySong(const std::string& name, Song* song, Menu* previousMenu, Library* library);
+	void createSubMenuLibrarySong(const std::string& name, Song* song, Menu* previousMenu, Library* library, SongManager* songManager);
 
 	void changeMenu(Menu* menu);
 

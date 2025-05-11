@@ -63,4 +63,12 @@ public:
     {
         return size;
     }
+
+    void clear()
+    {
+        while (!isEmpty())
+        {
+            dequeue();
+        }
+    }
 };

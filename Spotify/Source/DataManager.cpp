@@ -572,3 +572,29 @@ Song* DataManager::findSongByName(const std::string& name)
     }
     return nullptr;
 }
+
+std::map<std::string, List<Song*>*> DataManager::getSongsGroupedByGenre()
+{
+    std::map<std::string, List<Song*>*> grouped;
+    List<Song*>* allSongs = getAllSongs();
+
+    for (uint i = 0; i < allSongs->size(); ++i)
+    {
+        Song* song = allSongs->getAtPosition(i);
+        List<std::string>* genres = song->getGenres();
+
+        for (uint j = 0; j < genres->size(); ++j)
+        {
+            const std::string& genre = genres->getAtPosition(j);
+
+            if (grouped.find(genre) == grouped.end())
+            {
+                grouped[genre] = new List<Song*>();
+            }
+
+            grouped[genre]->addLast(song);
+        }
+    }
+
+    return grouped;
+}

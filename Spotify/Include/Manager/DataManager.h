@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <map>
 
 class DataManager
 {
@@ -23,7 +24,6 @@ private:
 public:
 	DataManager();
 	~DataManager();
-
 
 	Artist* searchArtist();
 	Album* searchAlbum();
@@ -43,4 +43,6 @@ public:
 	Artist* findArtistByName(const std::string& name);
 	Album* findAlbumByName(const std::string& name);
 	Song* findSongByName(const std::string& name);
+
+	std::map<std::string, List<Song*>*> getSongsGroupedByGenre();
 };
