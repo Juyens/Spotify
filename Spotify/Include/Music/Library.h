@@ -18,6 +18,7 @@ private:
 	List<Album*>* _albums;
 	List<Playlist*>* _playlists;
 	std::string _email;
+	enum Section { NONE, ARTISTS, ALBUMS, PLAYLIST };
 
 public:
 	Library(const std::string& email);
@@ -40,5 +41,6 @@ public:
 	void createPlaylist();
 
 	void loadFromFile(const std::string& email, DataManager* dataManager);
+	void recursiveLoad(std::ifstream& file, std::string& line, Section& section, Playlist*& currentPlaylist, DataManager* dataManager);
 	void saveToFile(const std::string& email);
 };

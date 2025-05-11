@@ -43,24 +43,22 @@ inline std::string validatedInput<std::string>(const std::string& prompt, const 
     std::string value;
     bool isValid;
 
-    do
-    {
-        if (!prompt.empty())
+    if (!prompt.empty())
             std::cout << prompt;
 
-        if (std::cin.peek() == '\n')
+    if (std::cin.peek() == '\n')
             std::cin.ignore();
 
-        getline(std::cin, value);
-        isValid = !value.empty();
+    getline(std::cin, value);
+    isValid = !value.empty();
 
-        if (isValid && condition)
-            isValid = condition(value);
-
-        if (!isValid && !errorMsg.empty())
-            std::cout << errorMsg;
+    if (!value.empty() && !condition || condition(value))
+    {
+        return value;
     }
-    while (!isValid);
-
-    return value;
+    else if (!errorMsg.empty())
+    {
+        std::cout << errorMsg;
+    }
+    return validatedInput<std::string>(prompt,errorMsg,condition);
 }

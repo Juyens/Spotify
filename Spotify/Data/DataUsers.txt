@@ -1,2 +1,4 @@
 Joseph3,jos@gmail.com,123,Student
 123,123@gmail.com,123,Premium
+hola,elynor@gmail.com,hola134,Free
+hola ,hola@gmail.com,hola123,Free

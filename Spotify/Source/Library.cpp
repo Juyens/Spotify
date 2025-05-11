@@ -113,53 +113,56 @@ void Library::loadFromFile(const std::string& email, DataManager* dataManager)
     }
 
     std::string line;
-    enum Section { NONE, ARTISTS, ALBUMS, PLAYLIST } section = NONE;
-
+    Section section = NONE;
     Playlist* currentPlaylist = nullptr;
 
-    while (getline(file, line))
+	recursiveLoad(file, line, section, currentPlaylist, dataManager);
+}
+void Library::recursiveLoad(std::ifstream& file, std::string& line, Section& section, Playlist*& currentPlaylist, DataManager* dataManager)
+{
+    if (!std::getline(file, line)) return;
+
+    if (line == "Artists:")
     {
-        if (line == "Artists:")
+        section = ARTISTS;
+    }
+    else if (line == "Albums:")
+    {
+        section = ALBUMS;
+    }
+    else if (line.rfind("Playlist: ", 0) == 0)
+    {
+        section = PLAYLIST;
+        std::string playlistName = line.substr(10);
+        currentPlaylist = new Playlist(playlistName);
+        _playlists->addLast(currentPlaylist);
+    }
+    else if (!line.empty())
+    {
+        switch (section)
         {
-            section = ARTISTS;
+        case ARTISTS:
+        {
+            Artist* artist = dataManager->findArtistByName(line);
+            if (artist) _artist->addLast(artist);
+            break;
         }
-        else if (line == "Albums:")
+        case ALBUMS:
         {
-            section = ALBUMS;
+            Album* album = dataManager->findAlbumByName(line);
+            if (album) _albums->addLast(album);
+            break;
         }
-        else if (line.rfind("Playlist: ", 0) == 0)
+        case PLAYLIST:
         {
-            section = PLAYLIST;
-            std::string playlistName = line.substr(10);
-            currentPlaylist = new Playlist(playlistName);
-            _playlists->addLast(currentPlaylist);
+            Song* song = dataManager->findSongByName(line);
+            if (song && currentPlaylist) currentPlaylist->addSong(song);
+            break;
         }
-        else if (!line.empty())
-        {
-            switch (section)
-            {
-            case ARTISTS:
-            {
-                Artist* artist = dataManager->findArtistByName(line);
-                if (artist) _artist->addLast(artist);
-                break;
-            }
-            case ALBUMS:
-            {
-                Album* album = dataManager->findAlbumByName(line);
-                if (album) _albums->addLast(album);
-                break;
-            }
-            case PLAYLIST:
-            {
-                Song* song = dataManager->findSongByName(line);
-                if (song && currentPlaylist) currentPlaylist->addSong(song);
-                break;
-            }
-            default: break;
-            }
+        default: break;
         }
     }
+	recursiveLoad(file, line, section, currentPlaylist, dataManager);
 }
 
 void Library::saveToFile(const std::string& email)
