@@ -91,18 +91,29 @@ void MenuManager::createHistoryMenu(SongManager* songManager, Library* library)
 {
 	Menu* subMenu = new Menu("Historial");
 
-	auto stack = songManager->getHistory();
+	Stack<Song*>* originalStack = songManager->getHistory();
+	List<Song*>* tempList = new List<Song*>();
 
-	while (!stack->isEmpty())
+	while (!originalStack->isEmpty())
 	{
-		Song* song = stack->peek();
-
+		Song* song = originalStack->peek();
+		tempList->addLast(song);
+		
 		subMenu->addOption(song->getName(), [this, song, subMenu, library, songManager]
 		{
 			createSubMenuLibrarySong(song->getName(), song, subMenu, library, songManager);
 		});
 
-		stack->pop();
+		originalStack->pop();
+	}
+
+	if (!tempList->isEmpty())
+	{
+		for (int i = static_cast<int>(tempList->size()) - 1; i >= 0; --i)
+		{
+			auto song = tempList->getAtPosition(i);
+			songManager->getHistory()->push(song);
+		}
 	}
 
 	subMenu->addOptionBack("Volver", [this]
